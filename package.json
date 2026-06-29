@@ -11,7 +11,9 @@
     "dev": "ELECTRON_ENABLE_LOGGING=1 electron .",
     "lint": "eslint .",
     "pack": "electron-builder --dir",
-    "dist:win": "electron-builder --win nsis"
+    "dist:win": "electron-builder --win nsis",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:all": "electron-builder --win nsis --linux AppImage deb"
   },
   "dependencies": {
     "electron-log": "^5.4.0",
@@ -33,6 +35,14 @@
     ],
     "directories": {
       "output": "release"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office",
+      "artifactName": "TrackDesk-${version}-${arch}.${ext}"
     },
     "win": {
       "target": "nsis",
