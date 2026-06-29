@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrackDesk</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="titlebar">
+        <div class="brand">
+          <span class="brand-mark">T</span>
+          <span>TrackDesk</span>
+        </div>
+        <div class="window-actions">
+          <button id="minimizeBtn" title="Minimize" aria-label="Minimize">_</button>
+          <button id="maximizeBtn" title="Maximize" aria-label="Maximize">□</button>
+        </div>
+      </header>
+
+      <aside class="sidebar">
+        <div class="profile">
+          <div class="avatar" id="avatar">TD</div>
+          <div>
+            <h2 id="employeeName">Not signed in</h2>
+            <p id="employeeMeta">Secure desktop tracking</p>
+          </div>
+        </div>
+        <nav>
+          <button class="nav-item active" data-view="dashboard">Dashboard</button>
+          <button class="nav-item" data-view="tasks">Assigned Tasks</button>
+          <button class="nav-item" data-view="activity">Recent Activity</button>
+          <button class="nav-item" data-view="settings">Settings</button>
+        </nav>
+        <div class="sync-card">
+          <span id="connectionDot" class="dot"></span>
+          <div>
+            <strong id="connectionLabel">Checking</strong>
+            <p id="syncDetail">Sync engine starting</p>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section id="loginPanel" class="login-panel">
+          <form id="emailLoginForm" class="login-box">
+            <h1>Employee Login</h1>
+            <label>
+              Email
+              <input id="emailInput" type="email" autocomplete="username" required />
+            </label>
+            <button id="sendOtpBtn" type="submit" class="primary-action">Send OTP</button>
+            <p id="emailLoginMessage" class="form-message"></p>
+          </form>
+
+          <form id="otpVerifyForm" class="login-box hidden">
+            <h1>Verify OTP</h1>
+            <p class="login-copy">A verification code has been sent to <strong id="otpEmailLabel"></strong>.</p>
+            <div class="otp-inputs" aria-label="Six digit verification code">
+              <input class="otp-input" inputmode="numeric" maxlength="1" autocomplete="one-time-code" />
+              <input class="otp-input" inputmode="numeric" maxlength="1" />
+              <input class="otp-input" inputmode="numeric" maxlength="1" />
+              <input class="otp-input" inputmode="numeric" maxlength="1" />
+              <input class="otp-input" inputmode="numeric" maxlength="1" />
+              <input class="otp-input" inputmode="numeric" maxlength="1" />
+            </div>
+            <div class="otp-meta">
+              <span id="otpCountdown">Expires in 05:00</span>
+              <button id="resendOtpBtn" type="button" class="link-action">Resend OTP</button>
+            </div>
+            <button id="verifyOtpBtn" type="submit" class="primary-action">Verify</button>
+            <button id="changeEmailBtn" type="button" class="secondary-action">Change Email</button>
+            <p id="otpLoginMessage" class="form-message"></p>
+          </form>
+        </section>
+
+        <section id="appPanel" class="app-panel hidden">
+          <div class="persistent-timer">
+            <div>
+              <span class="eyebrow">Running Timer</span>
+              <h1 id="timerTaskName">No active task</h1>
+            </div>
+            <div class="timer-controls">
+              <output id="timerDisplay">00:00:00</output>
+              <button id="pauseTimerBtn" class="secondary-action">Pause</button>
+              <button id="stopTimerBtn" class="danger-action">Stop</button>
+            </div>
+          </div>
+          <p id="restoreNotice" class="restore-notice hidden">An active timer was restored after system restart.</p>
+
+          <section class="view active" id="dashboardView">
+            <div class="metrics-grid">
+              <div class="metric">
+                <span>Active</span>
+                <strong id="activeCount">0</strong>
+              </div>
+              <div class="metric">
+                <span>In Progress</span>
+                <strong id="progressCount">0</strong>
+              </div>
+              <div class="metric">
+                <span>Completed</span>
+                <strong id="completedCount">0</strong>
+              </div>
+              <div class="metric">
+                <span>Unsynced</span>
+                <strong id="unsyncedCount">0</strong>
+              </div>
+            </div>
+            <div class="section-heading">
+              <h2>Assigned Work</h2>
+              <button id="refreshTasksBtn" class="secondary-action">Refresh</button>
+            </div>
+            <div id="taskGroups" class="task-groups"></div>
+          </section>
+
+          <section class="view" id="tasksView">
+            <div class="section-heading">
+              <h2>All Tasks</h2>
+              <button id="refreshTasksBtnAlt" class="secondary-action">Refresh</button>
+            </div>
+            <div id="allTasks" class="task-list"></div>
+          </section>
+
+          <section class="view" id="activityView">
+            <h2>Recent Activity</h2>
+            <div id="activityList" class="activity-list"></div>
+          </section>
+
+          <section class="view" id="settingsView">
+            <h2>Settings</h2>
+            <div class="settings-grid">
+              <div class="setting-row">
+                <span>Auto-start on Windows login</span>
+                <strong id="autoLaunchSetting">Configured by app</strong>
+              </div>
+              <div class="setting-row">
+                <span>Timer persistence interval</span>
+                <strong id="persistIntervalSetting">5 seconds</strong>
+              </div>
+              <div class="setting-row">
+                <span>Background sync interval</span>
+                <strong id="syncIntervalSetting">60 seconds</strong>
+              </div>
+            </div>
+            <button id="logoutBtn" class="secondary-action" type="button">Log out</button>
+            <form id="adminExitForm" class="admin-exit">
+              <label>
+                Administrator password
+                <input id="adminPasswordInput" type="password" autocomplete="off" />
+              </label>
+              <button class="danger-action" type="submit">Exit Application</button>
+              <p id="adminMessage" class="form-message"></p>
+            </form>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
